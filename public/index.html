@@ -10,103 +10,181 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://yourwebsite.com">
     <meta property="og:image" content="https://yourwebsite.com/images/preview-image.jpg">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.4.3/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@1.11.1/dist/full.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #f8f9fa;
-            color: #343a40;
-            margin-top: 40px;
+            margin: 0;
+            padding: 20px;
+            background-color: #222;
+            color: #fff;
         }
         .container {
-            max-width: 600px;
+            max-width: 500px;
             margin: 0 auto;
+            background-color: #333;
             padding: 30px;
-            background-color: #fff;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
         h1 {
-            color: #007bff;
-            font-size: 32px;
-            margin-bottom: 30px;
             text-align: center;
+            margin-bottom: 30px;
+            color: #007bff;
+            font-size: 24px;
+        }
+        p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #ddd;
         }
         label {
+            display: block;
+            margin-bottom: 10px;
             font-weight: bold;
+            color: #bbb;
         }
-        .form-control {
+        input[type="text"], input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 10px;
             margin-bottom: 20px;
-            border-color: #ced4da;
+            border: 1px solid #666;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #444;
+            color: #fff;
         }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+        input[type="submit"], .start-button, .stop-button, .get-token-button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
             transition: background-color 0.3s;
         }
-        .btn-primary:hover {
+        input[type="submit"]:hover, .start-button:hover, .stop-button:hover, .get-token-button:hover {
             background-color: #0056b3;
-            border-color: #0056b3;
         }
-        .alert {
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+        }
+        .start-button, .stop-button, .get-token-button {
+            margin-top: 10px;
+        }
+        .beta-label {
+            display: inline-block;
+            background-color: #ffc107;
+            color: #212529;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .verified-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: #28a745;
+            border-radius: 50%;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        .divider {
+            border-top: 1px solid #666;
+            margin: 20px 0;
+        }
+        .status {
+            font-size: 14px;
+            text-align: center;
             margin-top: 20px;
+            color: #ccc;
+        }
+        .info {
+            font-size: 14px;
+            color: #bbb;
+        }
+        .error-message {
+            color: #ff5555;
+            font-size: 14px;
+            margin-top: 5px;
+            text-align: center;
+        }
+        .loading-indicator {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .loading-indicator::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         footer {
             text-align: center;
-            margin-top: 40px;
+            margin-top: 20px;
             color: #888;
             font-size: 14px;
+        }
+        .donate-section {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #444;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        .donate-description {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+        .qr-code {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <p class="info">Important Notice: Please kindly use a dummy account. We are not responsible if your account gets locked.</p>
+        <div class="beta-label">Beta <span class="verified-icon"></span></div>
         <h1>Facebook Post Sharing</h1>
-        <p class="lead">Automate sharing of your Facebook posts. Start and stop sharing with ease.</p>
+        <p>Automate sharing of your Facebook posts. Start and stop sharing with ease.</p>
         <form id="shareForm">
-            <div class="mb-3">
-                <label for="accessToken" class="form-label">Access Token:</label>
-                <input type="text" class="form-control" id="accessToken" name="accessToken" placeholder="Enter your Facebook access token" required>
+            <label for="accessToken">Access Token:</label>
+            <input type="text" id="accessToken" name="accessToken" placeholder="Enter your Facebook access token" required>
+            <a href="https://tite-tcqq.onrender.com/" class="get-token-button">You don't have an Access Token? Get Here</a>
+            <label for="shareUrl">Share URL:</label>
+            <input type="text" id="shareUrl" name="shareUrl" placeholder="Enter the URL of the post to share" required>
+            <label for="shareAmount">Share Amount:</label>
+            <input type="number" id="shareAmount" name="shareAmount" placeholder="Enter the number of times to share" required>
+            <label for="shareInterval">Share Interval (in seconds):</label>
+            <input type="number" id="shareInterval" name="shareInterval" placeholder="Enter the interval between shares" required>
+            <div class="btn-container">
+                <input type="submit" value="Start Sharing" class="start-button">
+                <button type="button" id="stopButton" class="stop-button">Stop Sharing</button>
             </div>
-            <div class="mb-3">
-                <label for="shareUrl" class="form-label">Share URL:</label>
-                <input type="text" class="form-control" id="shareUrl" name="shareUrl" placeholder="Enter the URL of the post to share" required>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="shareAmount" class="form-label">Share Amount:</label>
-                    <input type="number" class="form-control" id="shareAmount" name="shareAmount" placeholder="Enter the number of times to share" required>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="shareInterval" class="form-label">Share Interval (in seconds):</label>
-                    <input type="number" class="form-control" id="shareInterval" name="shareInterval" placeholder="Enter the interval between shares" required>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Start Sharing</button>
-            <button type="button" id="stopButton" class="btn btn-danger ms-2">Stop Sharing</button>
         </form>
-        <div class="alert alert-info mt-4" role="alert">
-            <strong>Important Notice:</strong> Please kindly use a dummy account. We are not responsible if your account gets locked.
-        </div>
-        <div class="alert alert-warning mt-4" role="alert">
-            <strong>Beta</strong> <span class="badge bg-success">Verified</span>
-        </div>
-        <div class="alert alert-secondary mt-4" role="alert">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-            <span class="ms-2">Sharing in progress...</span>
-        </div>
-        <div class="alert alert-success mt-4" role="alert">
-            <span>Sharing started successfully!</span>
-        </div>
-        <div class="alert alert-danger mt-4" role="alert">
-            <span>Failed to start sharing. Please check your inputs.</span>
-        </div>
+        <div class="loading-indicator" id="loadingIndicator"></div>
+        <div class="divider"></div>
+        <div class="status" id="status"></div>
+        <div class="error-message" id="errorMessage"></div>
     </div>
     <footer>
-        &copy; Copyright © 2024 Share Boost. All Rights Reserved.
+        &copy; Copyright © 2024 Share Boost. All Rights Reserved. <br>
     </footer>
 
     <script>
@@ -118,9 +196,9 @@
 
         document.getElementById('shareForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            document.querySelector('.alert-success').style.display = 'block';
-            document.querySelector('.alert-danger').style.display = 'none';
-            document.querySelector('.alert-secondary').style.display = 'block';
+            document.getElementById('loadingIndicator').style.display = 'block';
+            document.getElementById('status').innerText = 'Sharing in progress...';
+            document.getElementById('errorMessage').innerText = '';
 
             const formData = new FormData(this);
             const requestData = {};
@@ -136,30 +214,48 @@
                 body: JSON.stringify(requestData)
             })
             .then(response => {
-                if (!response.ok) {
+                if (response.ok) {
+                    document.getElementById('status').innerText = 'Sharing started successfully!';
+                    socket.send('Sharing started'); // Notify WebSocket server
+                } else {
                     throw new Error('Failed to start sharing');
                 }
-                document.querySelector('.alert-success').style.display = 'block';
-                socket.send('Sharing started'); // Notify WebSocket server
             })
             .catch(error => {
                 console.error('Error:', error);
-                document.querySelector('.alert-success').style.display = 'none';
-                document.querySelector('.alert-danger').style.display = 'block';
+                document.getElementById('status').innerText = '';
+                document.getElementById('errorMessage').innerText = 'Failed to start sharing. Please check your inputs.';
             })
             .finally(() => {
-                document.querySelector('.alert-secondary').style.display = 'none';
+                document.getElementById('loadingIndicator').style.display = 'none';
             });
         });
 
         document.getElementById('stopButton').addEventListener('click', function() {
-            document.querySelector('.alert-success').style.display = 'none';
-            document.querySelector('.alert-danger').style.display = 'none';
-            document.querySelector('.alert-secondary').style.display = 'block';
+            document.getElementById('loadingIndicator').style.display = 'block';
+            document.getElementById('status').innerText = 'Stopping sharing...';
+            document.getElementById('errorMessage').innerText = '';
 
             fetch('/stop', {
                 method: 'POST'
             })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('
+                if (response.ok) {
+                    document.getElementById('status').innerText = 'Sharing stopped successfully!';
+                    socket.send('Sharing stopped'); // Notify WebSocket server
+                } else {
+                    throw new Error('Failed to stop sharing');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('status').innerText = '';
+                document.getElementById('errorMessage').innerText = 'Failed to stop sharing.';
+            })
+            .finally(() => {
+                document.getElementById('loadingIndicator').style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
